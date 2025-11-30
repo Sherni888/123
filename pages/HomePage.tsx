@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Star } from 'lucide-react';
-import { getProducts, getCategories, formatPrice } from '../services/storeService';
-import { Product, Category } from '../types';
+import { getProducts, getCategories, formatPrice } from '../services/storeService.ts';
+import { Product, Category } from '../types.ts';
 
 const HomePage: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);

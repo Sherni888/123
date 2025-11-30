@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Trash2, Plus, Minus, ArrowRight, CreditCard } from 'lucide-react';
-import { CartItem } from '../types';
-import { formatPrice } from '../services/storeService';
+import { CartItem } from '../types.ts';
+import { formatPrice } from '../services/storeService.ts';
 
 interface CartPageProps {
   cart: CartItem[];

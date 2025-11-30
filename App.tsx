@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
-import Navbar from './components/Navbar';
-import HomePage from './pages/HomePage';
-import ProductPage from './pages/ProductPage';
-import AdminPage from './pages/AdminPage';
-import LoginPage from './pages/LoginPage';
-import CartPage from './pages/CartPage';
-import { User, CartItem, Product } from './types';
+import Navbar from './components/Navbar.tsx';
+import HomePage from './pages/HomePage.tsx';
+import ProductPage from './pages/ProductPage.tsx';
+import AdminPage from './pages/AdminPage.tsx';
+import LoginPage from './pages/LoginPage.tsx';
+import CartPage from './pages/CartPage.tsx';
+import { User, CartItem, Product } from './types.ts';
 
 const App: React.FC = () => {
   const [user, setUser] = useState<User | null>(null);

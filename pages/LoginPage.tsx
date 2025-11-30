@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { User } from '../types';
-import { authenticateUser, registerUser } from '../services/storeService';
+import { User } from '../types.ts';
+import { authenticateUser, registerUser } from '../services/storeService.ts';
 import { Lock, User as UserIcon, ArrowRight } from 'lucide-react';
 
 interface LoginPageProps {

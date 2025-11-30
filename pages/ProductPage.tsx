@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { getProductById, formatPrice, addProductReview } from '../services/storeService';
-import { Product, Review, User } from '../types';
+import { getProductById, formatPrice, addProductReview } from '../services/storeService.ts';
+import { Product, Review, User } from '../types.ts';
 import { CheckCircle2, ShieldCheck, Zap, MessageCircle, ShoppingCart, Star, Upload, User as UserIcon, Calendar } from 'lucide-react';
 
 interface ProductPageProps {

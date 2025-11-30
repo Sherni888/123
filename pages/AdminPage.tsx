@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Plus, Trash2, Wand2, Loader2, Image as ImageIcon, List, Upload, X, Monitor } from 'lucide-react';
-import { User, Product, Category } from '../types';
-import { saveProduct, saveCategory, getCategories, getProducts, deleteProduct, deleteCategory, formatPrice } from '../services/storeService';
-import { generateProductDescription } from '../services/geminiService';
+import { User, Product, Category } from '../types.ts';
+import { saveProduct, saveCategory, getCategories, getProducts, deleteProduct, deleteCategory, formatPrice } from '../services/storeService.ts';
+import { generateProductDescription } from '../services/geminiService.ts';
 
 interface AdminPageProps {
   user: User | null;

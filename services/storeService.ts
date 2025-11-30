@@ -1,4 +1,4 @@
-import { Product, Category, Review, User } from '../types';
+import { Product, Category, Review, User } from '../types.ts';
 
 const PRODUCTS_KEY = 'ggsale_products';
 const CATEGORIES_KEY = 'ggsale_categories';

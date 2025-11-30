@@ -5,18 +5,30 @@ import HomePage from './pages/HomePage';
 import ProductPage from './pages/ProductPage';
 import AdminPage from './pages/AdminPage';
 import LoginPage from './pages/LoginPage';
-import { User } from './types';
+import CartPage from './pages/CartPage';
+import { User, CartItem, Product } from './types';
 
 const App: React.FC = () => {
   const [user, setUser] = useState<User | null>(null);
+  const [cart, setCart] = useState<CartItem[]>([]);
 
-  // Simple session persistence
+  // Load User & Cart
   useEffect(() => {
     const storedUser = localStorage.getItem('ggsale_user');
     if (storedUser) {
       setUser(JSON.parse(storedUser));
     }
+
+    const storedCart = localStorage.getItem('ggsale_cart');
+    if (storedCart) {
+      setCart(JSON.parse(storedCart));
+    }
   }, []);
+
+  // Save Cart on change
+  useEffect(() => {
+    localStorage.setItem('ggsale_cart', JSON.stringify(cart));
+  }, [cart]);
 
   const handleLogin = (newUser: User) => {
     setUser(newUser);
@@ -28,13 +40,55 @@ const App: React.FC = () => {
     localStorage.removeItem('ggsale_user');
   };
 
+  // Cart Functions
+  const addToCart = (product: Product) => {
+    setCart(prev => {
+      const existing = prev.find(item => item.product.id === product.id);
+      if (existing) {
+        return prev.map(item => 
+          item.product.id === product.id 
+            ? { ...item, quantity: item.quantity + 1 }
+            : item
+        );
+      }
+      return [...prev, { product, quantity: 1 }];
+    });
+  };
+
+  const removeFromCart = (productId: string) => {
+    setCart(prev => prev.filter(item => item.product.id !== productId));
+  };
+
+  const updateQuantity = (productId: string, delta: number) => {
+    setCart(prev => prev.map(item => {
+      if (item.product.id === productId) {
+        const newQuantity = item.quantity + delta;
+        return newQuantity > 0 ? { ...item, quantity: newQuantity } : item;
+      }
+      return item;
+    }));
+  };
+
   return (
     <HashRouter>
       <div className="min-h-screen bg-background text-gray-100 font-sans selection:bg-blue-500/30">
-        <Navbar user={user} onLogout={handleLogout} />
+        <Navbar user={user} onLogout={handleLogout} cartItemCount={cart.reduce((a, b) => a + b.quantity, 0)} />
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/product/:id" element={<ProductPage user={user} />} />
+          <Route 
+            path="/product/:id" 
+            element={<ProductPage user={user} addToCart={addToCart} />} 
+          />
+          <Route 
+            path="/cart" 
+            element={
+              <CartPage 
+                cart={cart} 
+                updateQuantity={updateQuantity} 
+                removeFromCart={removeFromCart} 
+              />
+            } 
+          />
           <Route path="/login" element={<LoginPage onLogin={handleLogin} />} />
           <Route 
             path="/admin" 

@@ -6,9 +6,10 @@ import { User } from '../types';
 interface NavbarProps {
   user: User | null;
   onLogout: () => void;
+  cartItemCount: number;
 }
 
-const Navbar: React.FC<NavbarProps> = ({ user, onLogout }) => {
+const Navbar: React.FC<NavbarProps> = ({ user, onLogout, cartItemCount }) => {
   const navigate = useNavigate();
 
   return (
@@ -29,9 +30,14 @@ const Navbar: React.FC<NavbarProps> = ({ user, onLogout }) => {
           </div>
           
           <div className="flex items-center gap-4">
-            <button className="p-2 text-gray-400 hover:text-white transition-colors">
+            <Link to="/cart" className="p-2 text-gray-400 hover:text-white transition-colors relative">
               <ShoppingCart size={22} />
-            </button>
+              {cartItemCount > 0 && (
+                <span className="absolute top-0 right-0 bg-blue-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full min-w-[18px] text-center border border-background">
+                  {cartItemCount}
+                </span>
+              )}
+            </Link>
             
             {user ? (
               <div className="flex items-center gap-4">

@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { getProductById, formatPrice, addProductReview } from '../services/storeService';
 import { Product, Review, User } from '../types';
 import { CheckCircle2, ShieldCheck, Zap, MessageCircle, ShoppingCart, Star, Upload, User as UserIcon, Calendar } from 'lucide-react';
 
 interface ProductPageProps {
     user: User | null;
+    addToCart: (product: Product) => void;
 }
 
-const ProductPage: React.FC<ProductPageProps> = ({ user }) => {
+const ProductPage: React.FC<ProductPageProps> = ({ user, addToCart }) => {
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
   const [product, setProduct] = useState<Product | undefined>(undefined);
   const [activeImage, setActiveImage] = useState<string>('');
   const [activeTab, setActiveTab] = useState<'description' | 'reviews' | 'requirements'>('description');
@@ -39,11 +41,18 @@ const ProductPage: React.FC<ProductPageProps> = ({ user }) => {
   }, [user]);
 
   const handleBuy = () => {
-      alert(`Proceeding to checkout for: ${product?.title}\nPrice: ${formatPrice(product?.price || 0)}`);
+      if (product) {
+        addToCart(product);
+        navigate('/cart');
+      }
   };
 
   const handleAddToCart = () => {
-      alert(`${product?.title} added to cart!`);
+      if (product) {
+          addToCart(product);
+          // Optional: Add visual feedback toast here
+          alert(`${product.title} added to cart!`);
+      }
   }
 
   const handleReviewImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {

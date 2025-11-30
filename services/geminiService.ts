@@ -1,7 +1,17 @@
 import { GoogleGenAI } from "@google/genai";
 
-// Ideally, this is injected via build process, but for this contained environment check:
-const API_KEY = process.env.API_KEY || '';
+// Safe access to API Key to prevent "process is not defined" crash in browser runtime
+const getApiKey = () => {
+  try {
+    return process.env.API_KEY || '';
+  } catch (e) {
+    // In some browser environments (like GH Pages without proper build vars), process might be undefined.
+    // Return empty string to allow app to load, even if AI features won't work.
+    return '';
+  }
+};
+
+const API_KEY = getApiKey();
 
 export const generateProductDescription = async (productName: string, categoryName: string, keywords: string): Promise<string> => {
   if (!API_KEY) {
